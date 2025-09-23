@@ -39,6 +39,8 @@ public class Recipe {
     @Column(name = "image_url")
     private String imageUrl;
 
+    //private Difficulty difficulty;
+
 //    @Lob
 //    @Column(name = "image_data")
 //    private byte[] imageData;
