@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/favorites")
+@RequestMapping("api/recipes/favorites")
 @RequiredArgsConstructor
 public class FavoriteController {
 

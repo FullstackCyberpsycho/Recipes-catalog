@@ -4,6 +4,7 @@ import com.example.Recipes.catalog.models.Favorite;
 import com.example.Recipes.catalog.models.Recipe;
 import com.example.Recipes.catalog.repository.FavoriteRepository;
 import com.example.Recipes.catalog.repository.RecipeRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -44,6 +45,7 @@ public class FavoriteService {
                 .toList();
     }
 
+    @Transactional
     @CacheEvict(value = "favorite", allEntries = true)
     public void deleteFavorite(Long recipeId) {
         if (!favoriteRepository.existsByRecipeId(recipeId)) {

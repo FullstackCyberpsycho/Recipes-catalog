@@ -10,7 +10,4 @@ import java.util.List;
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     void deleteByRecipeId(Long recipeId);
     boolean existsByRecipeId(Long recipeId);
-
-//    void deleteByRecipeId(Long recipeId);
-//    List<Favorite> findByRecipeId(Long recipeId);
 }

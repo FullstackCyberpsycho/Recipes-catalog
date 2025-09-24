@@ -467,37 +467,395 @@
 
 
 
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Каталог рецептов</title>-->
+<!--    <style>-->
+<!--        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }-->
+<!--        .container { max-width: 1000px; margin: 30px auto; background: #fff; padding: 20px 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }-->
+<!--        h1 { text-align: center; color: #333; margin-bottom: 20px; }-->
+<!--        .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }-->
+<!--        .controls input, .controls select { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; flex: 1; }-->
+<!--        .controls button { padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; }-->
+<!--        .controls button:hover { background: #45a049; }-->
+<!--        #recipeList { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }-->
+<!--        .recipe-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; }-->
+<!--        .recipe-card img { width: 100%; height: 150px; object-fit: cover; }-->
+<!--        .recipe-content { padding: 10px 15px; flex: 1; }-->
+<!--        .recipe-content h3 { margin: 0 0 10px; font-size: 18px; }-->
+<!--        .recipe-content p { margin: 0 0 6px; font-size: 14px; color: #555; }-->
+<!--        .recipe-actions { display: flex; justify-content: space-between; padding: 10px 15px; border-top: 1px solid #eee; flex-wrap: wrap; }-->
+<!--        .recipe-actions button { flex: 1; margin: 5px 3px; padding: 8px 5px; font-size: 14px; border-radius: 6px; cursor: pointer; border: none; color: #fff; transition: 0.2s; }-->
+<!--        .edit-btn { background: #2196F3; } .edit-btn:hover { background: #1976D2; }-->
+<!--        .delete-btn { background: #f44336; } .delete-btn:hover { background: #d32f2f; }-->
+<!--        .fav-btn { background: #FF9800; } .fav-btn:hover { background: #F57C00; }-->
+<!--        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; }-->
+<!--        .modal-content { background: #fff; padding: 20px 30px; border-radius: 12px; width: 400px; max-width: 90%; position: relative; }-->
+<!--        .modal-content h3 { margin-top: 0; }-->
+<!--        .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }-->
+<!--        .modal-content button { padding: 10px; background: #4CAF50; color: #fff; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 14px; }-->
+<!--        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #888; }-->
+<!--        #imagePreview { width: 100%; height: 150px; object-fit: cover; margin-bottom: 10px; border-radius: 6px; display: none; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>Каталог рецептов</h1>-->
+<!--    <div class="controls">-->
+<!--        <input type="text" id="search" placeholder="Поиск по названию">-->
+<!--        <select id="sort">-->
+<!--            <option value="">Сортировка</option>-->
+<!--            <option value="name-asc">Название А-Я</option>-->
+<!--            <option value="name-desc">Название Я-А</option>-->
+<!--            <option value="time-asc">Время ↑</option>-->
+<!--            <option value="time-desc">Время ↓</option>-->
+<!--        </select>-->
+<!--        <button id="addRecipeBtn">Добавить рецепт</button>-->
+<!--        <button id="showFavoritesBtn" style="background:#FF9800;">Избранное</button>-->
+<!--        <button id="showAllBtn">Все рецепты</button>-->
+<!--    </div>-->
+<!--    <div id="recipeList"></div>-->
+<!--</div>-->
+
+<!--<div class="modal" id="recipeModal">-->
+<!--    <div class="modal-content">-->
+<!--        <span class="modal-close" id="closeModal">&times;</span>-->
+<!--        <h3 id="modalTitle">Новый рецепт</h3>-->
+<!--        <input type="text" id="recipeName" placeholder="Название" required>-->
+<!--        <textarea id="recipeIngredients" placeholder="Ингредиенты" rows="2" required></textarea>-->
+<!--        <textarea id="recipeInstructions" placeholder="Инструкции" rows="2" required></textarea>-->
+<!--        <textarea id="recipeDescription" placeholder="Описание" rows="2"></textarea>-->
+<!--        <input type="number" id="recipeTime" placeholder="Время приготовления (мин)" required>-->
+<!--        <input type="text" id="recipeImage" placeholder="URL изображения">-->
+<!--        <img id="imagePreview" alt="Превью изображения">-->
+<!--        <button id="saveRecipeBtn">Сохранить</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    const apiUrl = "http://localhost:8080/api/recipes";-->
+<!--    const favUrl = "http://localhost:8080/api/recipes/favorites";-->
+
+<!--    let recipes = [];-->
+<!--    let favorites = [];-->
+<!--    let editId = null;-->
+<!--    let showingFavorites = false;-->
+
+<!--    const recipeList = document.getElementById("recipeList");-->
+<!--    const searchInput = document.getElementById("search");-->
+<!--    const sortSelect = document.getElementById("sort");-->
+<!--    const addRecipeBtn = document.getElementById("addRecipeBtn");-->
+<!--    const showFavoritesBtn = document.getElementById("showFavoritesBtn");-->
+<!--    const showAllBtn = document.getElementById("showAllBtn");-->
+<!--    const modal = document.getElementById("recipeModal");-->
+<!--    const closeModal = document.getElementById("closeModal");-->
+<!--    const modalTitle = document.getElementById("modalTitle");-->
+<!--    const recipeName = document.getElementById("recipeName");-->
+<!--    const recipeIngredients = document.getElementById("recipeIngredients");-->
+<!--    const recipeInstructions = document.getElementById("recipeInstructions");-->
+<!--    const recipeDescription = document.getElementById("recipeDescription");-->
+<!--    const recipeTime = document.getElementById("recipeTime");-->
+<!--    const recipeImage = document.getElementById("recipeImage");-->
+<!--    const saveRecipeBtn = document.getElementById("saveRecipeBtn");-->
+<!--    const imagePreview = document.getElementById("imagePreview");-->
+
+<!--    recipeImage.addEventListener("input", () => {-->
+<!--      if(recipeImage.value){-->
+<!--        imagePreview.src = recipeImage.value;-->
+<!--        imagePreview.style.display = "block";-->
+<!--      } else imagePreview.style.display = "none";-->
+<!--    });-->
+
+<!--    // ======================= Загрузка ========================-->
+<!--    async function loadRecipes(sorted=false){-->
+<!--      showingFavorites = false;-->
+<!--      let url = apiUrl;-->
+<!--      if(sorted){-->
+<!--        const sortVal = sortSelect.value;-->
+<!--        if(sortVal === "name-asc") url += "/sorted-name-ASC";-->
+<!--        if(sortVal === "name-desc") url += "/sorted-name-DESC";-->
+<!--        if(sortVal === "time-asc") url += "/sorted-cooking-time-ASC";-->
+<!--        if(sortVal === "time-desc") url += "/sorted-cooking-time-DESC";-->
+<!--      }-->
+<!--      try{-->
+<!--        const res = await fetch(url);-->
+<!--        recipes = await res.json();-->
+<!--        renderRecipes();-->
+<!--      }catch(e){ console.error("Ошибка загрузки рецептов:", e);}-->
+<!--    }-->
+
+<!--    async function loadFavorites(){-->
+<!--      try{-->
+<!--        const res = await fetch(favUrl);-->
+<!--        favorites = await res.json();-->
+<!--      }catch(e){ console.error("Ошибка загрузки избранного:", e);}-->
+<!--    }-->
+
+<!--    // ======================= Отображение ========================-->
+<!--    function renderRecipes(data){-->
+<!--      const list = data || recipes;-->
+<!--      const search = searchInput.value.toLowerCase();-->
+<!--      recipeList.innerHTML = "";-->
+<!--      const filtered = list.filter(r => r.name.toLowerCase().includes(search));-->
+<!--      if(filtered.length === 0){-->
+<!--        recipeList.innerHTML = "<p>Рецептов не найдено</p>";-->
+<!--        return;-->
+<!--      }-->
+<!--      filtered.forEach(r => {-->
+<!--        const isFav = favorites.some(f => f.id === r.id);-->
+<!--        const card = document.createElement("div");-->
+<!--        card.className = "recipe-card";-->
+<!--        card.innerHTML = `-->
+<!--          <img src="${r.imageUrl || 'https://via.placeholder.com/300x150'}" alt="${r.name}">-->
+<!--          <div class="recipe-content">-->
+<!--            <h3>${r.name}</h3>-->
+<!--            <p>Время: ${r.cookingTime || 0} мин</p>-->
+<!--            <p><strong>Ингредиенты:</strong> ${r.ingredients}</p>-->
+<!--            <p><strong>Инструкции:</strong> ${r.instructions}</p>-->
+<!--            <p>${r.description || ''}</p>-->
+<!--          </div>-->
+<!--          <div class="recipe-actions">-->
+<!--            <button class="edit-btn" onclick="editRecipe(${r.id})">Редактировать</button>-->
+<!--            <button class="delete-btn" onclick="deleteRecipe(${r.id})">Удалить</button>-->
+<!--            <button class="fav-btn" onclick="toggleFavorite(${r.id})">${isFav ? 'Убрать ⭐' : 'В избранное ⭐'}</button>-->
+<!--          </div>-->
+<!--        `;-->
+<!--        recipeList.appendChild(card);-->
+<!--      });-->
+<!--    }-->
+
+<!--    // ======================= CRUD ========================-->
+<!--    addRecipeBtn.addEventListener("click", ()=> {-->
+<!--      modalTitle.textContent = "Новый рецепт";-->
+<!--      recipeName.value = recipeIngredients.value = recipeInstructions.value = recipeDescription.value = recipeTime.value = recipeImage.value = "";-->
+<!--      imagePreview.style.display = "none";-->
+<!--      editId = null;-->
+<!--      modal.style.display = "flex";-->
+<!--    });-->
+
+<!--    closeModal.addEventListener("click", ()=> modal.style.display = "none");-->
+
+<!--    saveRecipeBtn.addEventListener("click", async ()=> {-->
+<!--      const data = {-->
+<!--        name: recipeName.value,-->
+<!--        ingredients: recipeIngredients.value,-->
+<!--        instructions: recipeInstructions.value,-->
+<!--        description: recipeDescription.value,-->
+<!--        cookingTime: parseInt(recipeTime.value),-->
+<!--        imageUrl: recipeImage.value-->
+<!--      };-->
+<!--      try{-->
+<!--        if(editId){-->
+<!--          await fetch(`${apiUrl}/${editId}`, {-->
+<!--            method:"PUT",-->
+<!--            headers: {"Content-Type":"application/json"},-->
+<!--            body: JSON.stringify(data)-->
+<!--          });-->
+<!--        } else {-->
+<!--          await fetch(apiUrl, {-->
+<!--            method:"POST",-->
+<!--            headers: {"Content-Type":"application/json"},-->
+<!--            body: JSON.stringify(data)-->
+<!--          });-->
+<!--        }-->
+<!--        modal.style.display="none";-->
+<!--        await loadRecipes();-->
+<!--        await loadFavorites();-->
+<!--      }catch(e){ console.error("Ошибка сохранения:", e);}-->
+<!--    });-->
+
+<!--    async function deleteRecipe(id){-->
+<!--      if(confirm("Удалить рецепт?")){-->
+<!--        try{-->
+<!--          await fetch(`${apiUrl}/${id}`, { method:"DELETE" });-->
+<!--          await loadRecipes();-->
+<!--          await loadFavorites();-->
+<!--        }catch(e){ console.error("Ошибка удаления:", e);}-->
+<!--      }-->
+<!--    }-->
+
+<!--    function editRecipe(id){-->
+<!--      const list = showingFavorites ? favorites : recipes;-->
+<!--      const r = list.find(r => r.id === id);-->
+<!--      modalTitle.textContent="Редактировать рецепт";-->
+<!--      recipeName.value = r.name;-->
+<!--      recipeIngredients.value = r.ingredients;-->
+<!--      recipeInstructions.value = r.instructions;-->
+<!--      recipeDescription.value = r.description || '';-->
+<!--      recipeTime.value = r.cookingTime;-->
+<!--      recipeImage.value = r.imageUrl || '';-->
+<!--      if(r.imageUrl){-->
+<!--        imagePreview.src = r.imageUrl;-->
+<!--        imagePreview.style.display = "block";-->
+<!--      } else imagePreview.style.display = "none";-->
+<!--      editId = id;-->
+<!--      modal.style.display = "flex";-->
+<!--    }-->
+
+<!--    // ======================= Избранное ========================-->
+<!--    async function toggleFavorite(id){-->
+<!--      try{-->
+<!--        const isFav = favorites.some(f => f.id === id);-->
+<!--        const method = isFav ? "DELETE" : "POST";-->
+<!--        const res = await fetch(`${favUrl}/${id}`, { method });-->
+<!--        if(!res.ok){-->
+<!--          console.error("Ошибка запроса:", await res.text());-->
+<!--          return;-->
+<!--        }-->
+<!--        await loadFavorites();-->
+<!--        renderRecipes();-->
+<!--      }catch(e){ console.error("Ошибка избранного:", e);}-->
+<!--    }-->
+
+<!--    // ======================= События ========================-->
+<!--    searchInput.addEventListener("input", ()=> renderRecipes());-->
+<!--    sortSelect.addEventListener("change", ()=> loadRecipes(true));-->
+<!--    showFavoritesBtn.addEventListener("click", async ()=> {-->
+<!--      showingFavorites = true;-->
+<!--      await loadFavorites();-->
+<!--      renderRecipes(favorites);-->
+<!--    });-->
+<!--    showAllBtn.addEventListener("click", async ()=> {-->
+<!--      showingFavorites = false;-->
+<!--      await loadRecipes();-->
+<!--      renderRecipes();-->
+<!--    });-->
+
+<!--    // ======================= Старт ========================-->
+<!--    async function init(){-->
+<!--      await loadRecipes();-->
+<!--      await loadFavorites();-->
+<!--      renderRecipes();-->
+<!--    }-->
+<!--    init();-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Каталог рецептов</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
-        .container { max-width: 1000px; margin: 30px auto; background: #fff; padding: 20px 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
         h1 { text-align: center; color: #333; margin-bottom: 20px; }
         .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .controls input, .controls select { padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; flex: 1; }
-        .controls button { padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .controls input, .controls select {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            flex: 1;
+        }
+        .controls button {
+            padding: 10px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
         .controls button:hover { background: #45a049; }
-        #recipeList { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
-        .recipe-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; }
+
+        #recipeList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .recipe-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+        .recipe-card:hover { transform: translateY(-3px); }
         .recipe-card img { width: 100%; height: 150px; object-fit: cover; }
         .recipe-content { padding: 10px 15px; flex: 1; }
         .recipe-content h3 { margin: 0 0 10px; font-size: 18px; }
         .recipe-content p { margin: 0 0 6px; font-size: 14px; color: #555; }
-        .recipe-actions { display: flex; justify-content: space-between; padding: 10px 15px; border-top: 1px solid #eee; flex-wrap: wrap; }
-        .recipe-actions button { flex: 1; margin: 5px 3px; padding: 8px 5px; font-size: 14px; border-radius: 6px; cursor: pointer; border: none; color: #fff; transition: 0.2s; }
-        .edit-btn { background: #2196F3; } .edit-btn:hover { background: #1976D2; }
-        .delete-btn { background: #f44336; } .delete-btn:hover { background: #d32f2f; }
-        .fav-btn { background: #FF9800; } .fav-btn:hover { background: #F57C00; }
+
+        .recipe-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding: 8px 10px;
+            gap: 5px;
+        }
+        .recipe-actions button {
+            padding: 5px 8px;
+            font-size: 13px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            color: #fff;
+            transition: 0.2s;
+        }
+        .edit-btn { background: #2196F3; }
+        .edit-btn:hover { background: #1976D2; }
+        .delete-btn { background: #f44336; }
+        .delete-btn:hover { background: #d32f2f; }
+        .fav-btn { background: #FF9800; }
+        .fav-btn:hover { background: #F57C00; }
+
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; }
         .modal-content { background: #fff; padding: 20px 30px; border-radius: 12px; width: 400px; max-width: 90%; position: relative; }
         .modal-content h3 { margin-top: 0; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }
-        .modal-content button { padding: 10px; background: #4CAF50; color: #fff; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 14px; }
-        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #888; }
-        #imagePreview { width: 100%; height: 150px; object-fit: cover; margin-bottom: 10px; border-radius: 6px; display: none; }
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .modal-content button {
+            padding: 10px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #888;
+        }
+        #imagePreview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -536,12 +894,9 @@
 
 <script>
     const apiUrl = "http://localhost:8080/api/recipes";
-    const favUrl = "http://localhost:8080/favorites";
+    const favUrl = "http://localhost:8080/api/recipes/favorites";
 
-    let recipes = [];
-    let favorites = [];
-    let editId = null;
-    let showingFavorites = false;
+    let recipes = [], favorites = [], editId = null, showingFavorites = false;
 
     const recipeList = document.getElementById("recipeList");
     const searchInput = document.getElementById("search");
@@ -561,305 +916,140 @@
     const saveRecipeBtn = document.getElementById("saveRecipeBtn");
     const imagePreview = document.getElementById("imagePreview");
 
+    // Превью изображения
     recipeImage.addEventListener("input", () => {
-      if(recipeImage.value){
-        imagePreview.src = recipeImage.value;
-        imagePreview.style.display = "block";
-      } else imagePreview.style.display = "none";
+        if(recipeImage.value){
+            imagePreview.src = recipeImage.value;
+            imagePreview.style.display = "block";
+        } else imagePreview.style.display = "none";
     });
 
-    // ======================= Загрузка ========================
+    // Загрузка рецептов
     async function loadRecipes(sorted=false){
-      showingFavorites = false;
-      let url = apiUrl;
-      if(sorted){
-        const sortVal = sortSelect.value;
-        if(sortVal === "name-asc") url += "/sorted-name-ASC";
-        if(sortVal === "name-desc") url += "/sorted-name-DESC";
-        if(sortVal === "time-asc") url += "/sorted-cooking-time-ASC";
-        if(sortVal === "time-desc") url += "/sorted-cooking-time-DESC";
-      }
-      try{
-        const res = await fetch(url);
-        recipes = await res.json();
-        renderRecipes();
-      }catch(e){ console.error("Ошибка загрузки рецептов:", e);}
+        showingFavorites = false;
+        let url = apiUrl;
+        if(sorted){
+            const sortVal = sortSelect.value;
+            if(sortVal === "name-asc") url += "/sorted-name-ASC";
+            if(sortVal === "name-desc") url += "/sorted-name-DESC";
+            if(sortVal === "time-asc") url += "/sorted-cooking-time-ASC";
+            if(sortVal === "time-desc") url += "/sorted-cooking-time-DESC";
+        }
+        try{ const res = await fetch(url); recipes = await res.json(); renderRecipes(); }
+        catch(e){ console.error("Ошибка загрузки рецептов:", e);}
     }
 
     async function loadFavorites(){
-      try{
-        const res = await fetch(favUrl);
-        favorites = await res.json();
-      }catch(e){ console.error("Ошибка загрузки избранного:", e);}
+        try{ const res = await fetch(favUrl); favorites = await res.json(); }
+        catch(e){ console.error("Ошибка загрузки избранного:", e);}
     }
 
-    // ======================= Отображение ========================
+    // Рендер карточек
     function renderRecipes(data){
-      const list = data || recipes;
-      const search = searchInput.value.toLowerCase();
-      recipeList.innerHTML = "";
-      const filtered = list.filter(r => r.name.toLowerCase().includes(search));
-      if(filtered.length === 0){
-        recipeList.innerHTML = "<p>Рецептов не найдено</p>";
-        return;
-      }
-      filtered.forEach(r => {
-        const isFav = favorites.some(f => f.id === r.id);
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = `
-          <img src="${r.imageUrl || 'https://via.placeholder.com/300x150'}" alt="${r.name}">
-          <div class="recipe-content">
-            <h3>${r.name}</h3>
-            <p>Время: ${r.cookingTime || 0} мин</p>
-            <p><strong>Ингредиенты:</strong> ${r.ingredients}</p>
-            <p><strong>Инструкции:</strong> ${r.instructions}</p>
-            <p>${r.description || ''}</p>
-          </div>
-          <div class="recipe-actions">
-            <button class="edit-btn" onclick="editRecipe(${r.id})">Редактировать</button>
-            <button class="delete-btn" onclick="deleteRecipe(${r.id})">Удалить</button>
-            <button class="fav-btn" onclick="toggleFavorite(${r.id})">${isFav ? 'Убрать ⭐' : 'В избранное ⭐'}</button>
-          </div>
-        `;
-        recipeList.appendChild(card);
-      });
+        const list = data || recipes;
+        const search = searchInput.value.toLowerCase();
+        recipeList.innerHTML = "";
+        const filtered = list.filter(r => r.name.toLowerCase().includes(search));
+        if(filtered.length === 0){ recipeList.innerHTML = "<p>Рецептов не найдено</p>"; return; }
+        filtered.forEach(r => {
+            const isFav = favorites.some(f => f.id === r.id);
+            const card = document.createElement("div");
+            card.className = "recipe-card";
+            card.innerHTML = `
+              <img src="${r.imageUrl || 'https://via.placeholder.com/300x150'}" alt="${r.name}">
+              <div class="recipe-content">
+                <h3>${r.name}</h3>
+                <p>Время: ${r.cookingTime || 0} мин</p>
+                <p><strong>Ингредиенты:</strong> ${r.ingredients}</p>
+                <p><strong>Инструкции:</strong> ${r.instructions}</p>
+                <p>${r.description || ''}</p>
+              </div>
+              <div class="recipe-actions">
+                <button class="edit-btn" onclick="editRecipe(${r.id})">✏️</button>
+                <button class="delete-btn" onclick="deleteRecipe(${r.id})">🗑️</button>
+                <button class="fav-btn" onclick="toggleFavorite(${r.id})">${isFav ? '⭐' : '☆'}</button>
+              </div>
+            `;
+            recipeList.appendChild(card);
+        });
     }
 
-    // ======================= CRUD ========================
+    // CRUD и избранное
     addRecipeBtn.addEventListener("click", ()=> {
-      modalTitle.textContent = "Новый рецепт";
-      recipeName.value = recipeIngredients.value = recipeInstructions.value = recipeDescription.value = recipeTime.value = recipeImage.value = "";
-      imagePreview.style.display = "none";
-      editId = null;
-      modal.style.display = "flex";
+        modalTitle.textContent = "Новый рецепт";
+        recipeName.value = recipeIngredients.value = recipeInstructions.value = recipeDescription.value = recipeTime.value = recipeImage.value = "";
+        imagePreview.style.display = "none";
+        editId = null;
+        modal.style.display = "flex";
     });
-
     closeModal.addEventListener("click", ()=> modal.style.display = "none");
-
     saveRecipeBtn.addEventListener("click", async ()=> {
-      const data = {
-        name: recipeName.value,
-        ingredients: recipeIngredients.value,
-        instructions: recipeInstructions.value,
-        description: recipeDescription.value,
-        cookingTime: parseInt(recipeTime.value),
-        imageUrl: recipeImage.value
-      };
-      try{
-        if(editId){
-          await fetch(`${apiUrl}/${editId}`, {
-            method:"PUT",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify(data)
-          });
-        } else {
-          await fetch(apiUrl, {
-            method:"POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify(data)
-          });
-        }
-        modal.style.display="none";
-        await loadRecipes();
-        await loadFavorites();
-      }catch(e){ console.error("Ошибка сохранения:", e);}
-    });
-
-    async function deleteRecipe(id){
-      if(confirm("Удалить рецепт?")){
+        const data = { name: recipeName.value, ingredients: recipeIngredients.value, instructions: recipeInstructions.value,
+            description: recipeDescription.value, cookingTime: parseInt(recipeTime.value), imageUrl: recipeImage.value };
         try{
-          await fetch(`${apiUrl}/${id}`, { method:"DELETE" });
-          await loadRecipes();
-          await loadFavorites();
-        }catch(e){ console.error("Ошибка удаления:", e);}
-      }
+            if(editId){
+                await fetch(`${apiUrl}/${editId}`, { method:"PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+            } else {
+                await fetch(apiUrl, { method:"POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+            }
+            modal.style.display="none";
+            await loadRecipes();
+            await loadFavorites();
+        }catch(e){ console.error("Ошибка сохранения:", e);}
+    });
+    async function deleteRecipe(id){
+        if(confirm("Удалить рецепт?")){
+            try{ await fetch(`${apiUrl}/${id}`, { method:"DELETE" }); await loadRecipes(); await loadFavorites(); }
+            catch(e){ console.error("Ошибка удаления:", e);}
+        }
     }
-
     function editRecipe(id){
-      const list = showingFavorites ? favorites : recipes;
-      const r = list.find(r => r.id === id);
-      modalTitle.textContent="Редактировать рецепт";
-      recipeName.value = r.name;
-      recipeIngredients.value = r.ingredients;
-      recipeInstructions.value = r.instructions;
-      recipeDescription.value = r.description || '';
-      recipeTime.value = r.cookingTime;
-      recipeImage.value = r.imageUrl || '';
-      if(r.imageUrl){
-        imagePreview.src = r.imageUrl;
-        imagePreview.style.display = "block";
-      } else imagePreview.style.display = "none";
-      editId = id;
-      modal.style.display = "flex";
+        const list = showingFavorites ? favorites : recipes;
+        const r = list.find(r => r.id === id);
+        modalTitle.textContent="Редактировать рецепт";
+        recipeName.value = r.name;
+        recipeIngredients.value = r.ingredients;
+        recipeInstructions.value = r.instructions;
+        recipeDescription.value = r.description || '';
+        recipeTime.value = r.cookingTime;
+        recipeImage.value = r.imageUrl || '';
+        if(r.imageUrl){ imagePreview.src = r.imageUrl; imagePreview.style.display = "block"; }
+        else imagePreview.style.display = "none";
+        editId = id;
+        modal.style.display = "flex";
     }
-
-    // ======================= Избранное ========================
     async function toggleFavorite(id){
-      try{
+    try{
         const isFav = favorites.some(f => f.id === id);
         const method = isFav ? "DELETE" : "POST";
         const res = await fetch(`${favUrl}/${id}`, { method });
         if(!res.ok){
-          console.error("Ошибка запроса:", await res.text());
-          return;
+            console.error("Ошибка запроса:", await res.text());
+            return;
         }
-        await loadFavorites();
-        renderRecipes();
-      }catch(e){ console.error("Ошибка избранного:", e);}
-    }
 
-    // ======================= События ========================
+        await loadFavorites(); // обновляем избранное
+
+        // если мы сейчас в разделе избранное, рендерим только favorites
+        if(showingFavorites){
+            renderRecipes(favorites);
+        } else {
+            renderRecipes();
+        }
+
+    } catch(e){ console.error("Ошибка избранного:", e);}
+}
+
+
+    // События
     searchInput.addEventListener("input", ()=> renderRecipes());
     sortSelect.addEventListener("change", ()=> loadRecipes(true));
-    showFavoritesBtn.addEventListener("click", async ()=> {
-      showingFavorites = true;
-      await loadFavorites();
-      renderRecipes(favorites);
-    });
-    showAllBtn.addEventListener("click", async ()=> {
-      showingFavorites = false;
-      await loadRecipes();
-      renderRecipes();
-    });
+    showFavoritesBtn.addEventListener("click", async ()=> { showingFavorites = true; await loadFavorites(); renderRecipes(favorites); });
+    showAllBtn.addEventListener("click", async ()=> { showingFavorites = false; await loadRecipes(); renderRecipes(); });
 
-    // ======================= Старт ========================
-    async function init(){
-      await loadRecipes();
-      await loadFavorites();
-      renderRecipes();
-    }
+    // Инициализация
+    async function init(){ await loadRecipes(); await loadFavorites(); renderRecipes(); }
     init();
 </script>
 </body>
 </html>
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="ru">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Каталог рецептов</title>-->
-<!--    <style>-->
-<!--        body { font-family: Arial, sans-serif; background: #f0f2f5; margin:0; padding:0; }-->
-<!--        .container { max-width: 900px; margin: 20px auto; padding: 20px; background:#fff; border-radius:10px; }-->
-<!--        h1 { text-align:center; }-->
-<!--        #recipeList { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap:10px; }-->
-<!--        .recipe-card { border:1px solid #ccc; border-radius:6px; overflow:hidden; background:#fafafa; }-->
-<!--        .recipe-card img { width:100%; height:150px; object-fit:cover; }-->
-<!--        .recipe-content { padding:10px; }-->
-<!--        .recipe-actions { display:flex; justify-content:space-between; padding:5px; }-->
-<!--        button { cursor:pointer; padding:5px 10px; border:none; border-radius:4px; }-->
-<!--        .edit-btn { background:#2196F3; color:#fff; }-->
-<!--        .delete-btn { background:#f44336; color:#fff; }-->
-<!--        .fav-btn { background:#FF9800; color:#fff; }-->
-<!--        .controls { display:flex; gap:10px; margin-bottom:10px; }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <h1>Каталог рецептов</h1>-->
-<!--    <div class="controls">-->
-<!--        <input type="text" id="search" placeholder="Поиск...">-->
-<!--        <button id="showFavoritesBtn">Избранное</button>-->
-<!--        <button id="showAllBtn">Все рецепты</button>-->
-<!--    </div>-->
-<!--    <div id="recipeList"></div>-->
-<!--</div>-->
-
-<!--<script>-->
-<!--    const apiUrl = "http://localhost:8080/api/recipes";-->
-<!--    const favUrl = "http://localhost:8080/favorites";-->
-
-<!--    let recipes = [];-->
-<!--    let favorites = [];-->
-<!--    let showingFavorites = false;-->
-
-<!--    const recipeList = document.getElementById("recipeList");-->
-<!--    const searchInput = document.getElementById("search");-->
-<!--    const showFavoritesBtn = document.getElementById("showFavoritesBtn");-->
-<!--    const showAllBtn = document.getElementById("showAllBtn");-->
-
-<!--    // ======================= Загрузка ========================-->
-<!--    async function loadRecipes(){-->
-<!--        try{-->
-<!--            const res = await fetch(apiUrl);-->
-<!--            recipes = await res.json();-->
-<!--            await loadFavorites();-->
-<!--            renderRecipes();-->
-<!--        }catch(e){ console.error(e);}-->
-<!--    }-->
-
-<!--    async function loadFavorites(){-->
-<!--        try{-->
-<!--            const res = await fetch(favUrl);-->
-<!--            favorites = await res.json();-->
-<!--        }catch(e){ console.error(e);}-->
-<!--    }-->
-
-<!--    // ======================= Отображение ========================-->
-<!--    function renderRecipes(list=recipes){-->
-<!--        recipeList.innerHTML = "";-->
-<!--        const search = searchInput.value.toLowerCase();-->
-<!--        const filtered = list.filter(r => r.name.toLowerCase().includes(search));-->
-<!--        if(filtered.length===0){ recipeList.innerHTML="<p>Рецептов не найдено</p>"; return;}-->
-<!--        filtered.forEach(r=>{-->
-<!--            const isFav = favorites.some(f=>f.id===r.id);-->
-<!--            const card = document.createElement("div");-->
-<!--            card.className="recipe-card";-->
-<!--            card.innerHTML=`-->
-<!--                <img src="${r.imageUrl || 'https://via.placeholder.com/300x150'}" alt="${r.name}">-->
-<!--                <div class="recipe-content">-->
-<!--                    <h3>${r.name}</h3>-->
-<!--                    <p>Время: ${r.cookingTime||0} мин</p>-->
-<!--                </div>-->
-<!--                <div class="recipe-actions">-->
-<!--                    <button class="fav-btn" onclick="toggleFavorite(${r.id})">${isFav?'Убрать ⭐':'В избранное ⭐'}</button>-->
-<!--                    <button class="delete-btn" onclick="deleteRecipe(${r.id})">Удалить</button>-->
-<!--                </div>-->
-<!--            `;-->
-<!--            recipeList.appendChild(card);-->
-<!--        });-->
-<!--    }-->
-
-<!--    // ======================= Избранное ========================-->
-<!--    async function toggleFavorite(id){-->
-<!--        const isFav = favorites.some(f=>f.id===id);-->
-<!--        try{-->
-<!--            if(isFav){-->
-<!--                await fetch(`${favUrl}/${id}`, {method:'DELETE'});-->
-<!--            } else {-->
-<!--                await fetch(`${favUrl}/${id}`, {method:'POST'});-->
-<!--            }-->
-<!--            await loadFavorites();-->
-<!--            renderRecipes(showingFavorites?favorites:recipes);-->
-<!--        }catch(e){ console.error(e);}-->
-<!--    }-->
-
-<!--    // ======================= Удаление ========================-->
-<!--    async function deleteRecipe(id){-->
-<!--        try{-->
-<!--            await fetch(`${apiUrl}/${id}`, {method:'DELETE'});-->
-<!--            await loadRecipes();-->
-<!--        }catch(e){ console.error(e);}-->
-<!--    }-->
-
-<!--    // ======================= События ========================-->
-<!--    searchInput.addEventListener("input", ()=>renderRecipes(showingFavorites?favorites:recipes));-->
-<!--    showFavoritesBtn.addEventListener("click", ()=>{-->
-<!--        showingFavorites=true;-->
-<!--        renderRecipes(favorites);-->
-<!--    });-->
-<!--    showAllBtn.addEventListener("click", ()=>{-->
-<!--        showingFavorites=false;-->
-<!--        renderRecipes(recipes);-->
-<!--    });-->
-
-<!--    // ======================= Старт ========================-->
-<!--    loadRecipes();-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
