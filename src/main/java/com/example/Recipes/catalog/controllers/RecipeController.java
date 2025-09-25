@@ -50,24 +50,24 @@ public class RecipeController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/sorted-name-ASC")
-    public ResponseEntity<List<Recipe>> getFindAllSortedNameASC() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedNameASC());
+    @GetMapping("/sorted-name-Asc")
+    public ResponseEntity<List<Recipe>> getFindAllSortedNameAsc() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedNameAsc());
     }
 
-    @GetMapping("/sorted-name-DESC")
-    public ResponseEntity<List<Recipe>> getFindAllSortedNameDESC() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedNameDESC());
+    @GetMapping("/sorted-name-Desc")
+    public ResponseEntity<List<Recipe>> getFindAllSortedNameDesc() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedNameDesc());
     }
 
-    @GetMapping("/sorted-cooking-time-ASC")
-    public ResponseEntity<List<Recipe>> getFindAllSortedCookingTimeASC() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedCookingTimeASC());
+    @GetMapping("/sorted-cooking-time-Asc")
+    public ResponseEntity<List<Recipe>> getFindAllSortedCookingTimeAsc() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedCookingTimeAsc());
     }
 
-    @GetMapping("/sorted-cooking-time-DESC")
-    public ResponseEntity<List<Recipe>> getFindAllSortedCookingTimeDESC() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedCookingTimeDESC());
+    @GetMapping("/sorted-cooking-time-Desc")
+    public ResponseEntity<List<Recipe>> getFindAllSortedCookingTimeDesc() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedCookingTimeDesc());
     }
 
     @PostMapping("/search")

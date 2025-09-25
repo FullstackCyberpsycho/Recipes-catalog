@@ -64,35 +64,33 @@ public class RecipeService {
         return repository.findById(id);
     }
 
-    @Cacheable(value = "recipes", key = "'sortedNameASC'")
+    @Cacheable(value = "recipes", key = "'sortedNameAsc'")
     public List<Recipe> findAllSortedNameASC() {
         log.info("Поиск названий рецептов отсортированых по ASC");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
-    @Cacheable(value = "recipes", key = "'sortedNameDESC'")
-    public List<Recipe> findAllSortedNameDESC() {
+    @Cacheable(value = "recipes", key = "'sortedNameDesc'")
+    public List<Recipe> findAllSortedNameDesc() {
         log.info("Поиск названий рецептов отсортированых по DESC");
         return repository.findAll(Sort.by(Sort.Direction.DESC, "name"));
     }
 
-    @Cacheable(value = "recipes", key = "'sortedCookingTimeASC'")
-    public List<Recipe> findAllSortedCookingTimeASC() {
+    @Cacheable(value = "recipes", key = "'sortedCookingTimeAsc'")
+    public List<Recipe> findAllSortedCookingTimeAsc() {
         log.info("Поиск рецептов по временни готовки отсортированых по ASC");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "cookingTime"));
     }
 
-    @Cacheable(value = "recipes", key = "'sortedCookingTimeDESC'")
-    public List<Recipe> findAllSortedCookingTimeDESC() {
+    @Cacheable(value = "recipes", key = "'sortedCookingTimeDesc'")
+    public List<Recipe> findAllSortedCookingTimeDesc() {
         log.info("Поиск рецептов по временни готовки отсортированых по DESC");
-
         return repository.findAll(Sort.by(Sort.Direction.DESC, "cookingTime"));
     }
 
     @Cacheable(value = "recipes", key = "'name_' + #name")
     public List<Recipe> findAllByNameContainingIgnoreCase(String name) {
         log.info("Поиск рецептов по названию: " + name);
-
         return repository.findAllByNameContainingIgnoreCase(name);
     }
 }
