@@ -65,7 +65,7 @@ public class RecipeService {
     }
 
     @Cacheable(value = "recipes", key = "'sortedNameAsc'")
-    public List<Recipe> findAllSortedNameASC() {
+    public List<Recipe> findAllSortedNameAsc() {
         log.info("Поиск названий рецептов отсортированых по ASC");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
