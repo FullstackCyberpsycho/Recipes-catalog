@@ -39,6 +39,9 @@ public class Recipe {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty = Difficulty.UNKNOWN;
+
     //private Difficulty difficulty;
 
 //    @Lob
