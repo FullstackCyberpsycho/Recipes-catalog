@@ -55,4 +55,28 @@ public class FavoriteService {
         favoriteRepository.deleteByRecipeId(recipeId);
         log.info("Рецепт с id {} удалён из избранного", recipeId);
     }
+
+    @Cacheable(value = "favorite", key = "'sortedNameAsc'")
+    public List<Recipe> findAllSortedNameAsc() {
+        log.info("Поиск избранных рецептов отсортированых по name ASC");
+        return favoriteRepository.findAllSortedNameAsc();
+    }
+
+    @Cacheable(value = "favorite", key = "'sortedNameDesc'")
+    public List<Recipe> findAllSortedNameDesc() {
+        log.info("Поиск избранных рецептов отсортированых по name DESC");
+        return favoriteRepository.findAllSortedNameDesc();
+    }
+
+    @Cacheable(value = "favorite", key = "'sortedCookingTimeAsc'")
+    public List<Recipe> findAllSortedCookingTimeAsc() {
+        log.info("Поиск избранных рецептов по временни готовки отсортированых по ASC");
+        return favoriteRepository.findAllSortedCookingTimeAsc();
+    }
+
+    @Cacheable(value = "favorite", key = "'sortedCookingTimeDesc'")
+    public List<Recipe> findAllSortedCookingTimeDesc() {
+        log.info("Поиск избранных рецептов по временни готовки отсортированых по DESC");
+        return favoriteRepository.findAllSortedCookingTimeDesc();
+    }
 }
