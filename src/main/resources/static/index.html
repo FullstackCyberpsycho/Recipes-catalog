@@ -255,12 +255,30 @@
     }
 
     // Избранное
+<!--    async function toggleFavorite(id){-->
+<!--        const isFav = favorites.some(f => f.id === id);-->
+<!--        const method = isFav ? "DELETE" : "POST";-->
+<!--        await fetch(`${favUrl}/${id}`, { method });-->
+<!--        await loadData(true);-->
+<!--        renderRecipes();-->
+<!--    }-->
+
     async function toggleFavorite(id){
         const isFav = favorites.some(f => f.id === id);
         const method = isFav ? "DELETE" : "POST";
+
         await fetch(`${favUrl}/${id}`, { method });
-        await loadData(true);
-        renderRecipes();
+
+        // обновляем массив избранного, но не переключаем страницу
+        try {
+            const res = await fetch(favUrl);
+            favorites = await res.json();
+        } catch(err) {
+            console.error("Ошибка обновления избранного:", err);
+        }
+
+        // перерисовываем текущую страницу без переключения
+        renderRecipes(showingFavorites ? favorites : recipes);
     }
 
     // События
