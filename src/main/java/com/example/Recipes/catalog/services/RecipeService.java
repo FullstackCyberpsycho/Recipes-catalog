@@ -38,6 +38,7 @@ public class RecipeService {
             recipe.setInstructions(updatedRecipe.getInstructions());
             recipe.setCookingTime(updatedRecipe.getCookingTime());
             recipe.setImageUrl(updatedRecipe.getImageUrl());
+            recipe.setDifficulty(updatedRecipe.getDifficulty());
 
             log.info("Обнавлен рецепт: " + recipe.getName());
             return repository.save(recipe);
@@ -93,4 +94,6 @@ public class RecipeService {
         log.info("Поиск рецептов по названию: " + name);
         return repository.findAllByNameContainingIgnoreCase(name);
     }
+
+
 }

@@ -41,10 +41,4 @@ public class Recipe {
 
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty = Difficulty.UNKNOWN;
-
-    //private Difficulty difficulty;
-
-//    @Lob
-//    @Column(name = "image_data")
-//    private byte[] imageData;
 }
