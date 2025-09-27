@@ -79,4 +79,9 @@ public class FavoriteService {
         log.info("Поиск избранных рецептов по временни готовки отсортированых по DESC");
         return favoriteRepository.findAllSortedCookingTimeDesc();
     }
+
+    @CacheEvict(value = "favorite", allEntries = true)
+    public void evictFavoriteCache() {
+        log.info("Очистка кеша избранного");
+    }
 }

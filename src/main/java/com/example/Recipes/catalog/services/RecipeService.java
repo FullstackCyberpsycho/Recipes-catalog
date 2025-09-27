@@ -1,6 +1,7 @@
 package com.example.Recipes.catalog.services;
 
 import com.example.Recipes.catalog.models.Recipe;
+import com.example.Recipes.catalog.repository.CategoryRepository;
 import com.example.Recipes.catalog.repository.RecipeRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,15 @@ import org.slf4j.Logger;
 @Service
 public class RecipeService {
     private final RecipeRepository repository;
+    private final CategoryRepository categoryRepository;
     private static final Logger log = LoggerFactory.getLogger(RecipeService.class);
+    private final FavoriteService favoriteService;
 
     @Autowired
-    public RecipeService(RecipeRepository repository) {
+    public RecipeService(RecipeRepository repository, CategoryRepository categoryRepository, FavoriteService favoriteService) {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
+        this.favoriteService = favoriteService;
     }
 
     @CacheEvict(value = "recipes", allEntries = true)
@@ -39,6 +44,10 @@ public class RecipeService {
             recipe.setCookingTime(updatedRecipe.getCookingTime());
             recipe.setImageUrl(updatedRecipe.getImageUrl());
             recipe.setDifficulty(updatedRecipe.getDifficulty());
+            recipe.setCategory(updatedRecipe.getCategory());
+
+            // Сбрасываем кеш избранного, чтобы обновлённый рецепт отобразился сразу
+            favoriteService.evictFavoriteCache();
 
             log.info("Обнавлен рецепт: " + recipe.getName());
             return repository.save(recipe);
@@ -94,6 +103,4 @@ public class RecipeService {
         log.info("Поиск рецептов по названию: " + name);
         return repository.findAllByNameContainingIgnoreCase(name);
     }
-
-
 }

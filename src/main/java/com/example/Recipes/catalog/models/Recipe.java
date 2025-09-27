@@ -41,4 +41,12 @@ public class Recipe {
 
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty = Difficulty.UNKNOWN;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+//    @Lob
+//    @Column(name = "image_data")
+//    private byte[] imageData;
 }

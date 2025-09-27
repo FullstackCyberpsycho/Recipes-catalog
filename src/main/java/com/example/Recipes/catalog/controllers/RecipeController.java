@@ -22,14 +22,12 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<Recipe> addRecipe(@RequestBody @Valid Recipe recipe) {
-        Recipe saved = service.saveRecipe(recipe);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRecipe(recipe));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable long id , @RequestBody @Valid Recipe recipe) {
-        Recipe updated = service.updateRecipe(id, recipe);
-        return ResponseEntity.status(HttpStatus.OK).body(updated);
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateRecipe(id, recipe));
     }
 
     @DeleteMapping("/{id}")

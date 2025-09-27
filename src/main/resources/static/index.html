@@ -4,38 +4,40 @@
     <meta charset="UTF-8">
     <title>Каталог рецептов</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }
-        .container { max-width: 1100px; margin: 30px auto; padding: 20px; }
-        h1 { text-align: center; color: #333; margin-bottom: 20px; }
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
-        .controls input, .controls select, .controls button { padding: 8px 12px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
-        .controls button { background: #4CAF50; color: #fff; cursor: pointer; border: none; transition: background 0.2s; }
-        .controls button:hover { background: #43a047; }
-        #recipeList { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .recipe-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; display: flex; flex-direction: column; }
-        .recipe-card:hover { transform: translateY(-5px); }
-        .recipe-card img { width: 100%; height: 160px; object-fit: cover; }
-        .recipe-info { padding: 12px; flex: 1; }
-        .recipe-info h3 { margin: 0; font-size: 18px; color: #333; }
-        .recipe-info p { margin: 5px 0 0; font-size: 14px; color: #777; display:flex; align-items:center; gap:8px; justify-content:space-between; }
-        .recipe-actions { display: flex; justify-content: space-between; padding: 10px; border-top: 1px solid #eee; }
-        .recipe-actions button { flex: 1; margin: 0 4px; padding: 6px 8px; font-size: 13px; border-radius: 6px; cursor: pointer; border: none; color: #fff; transition: 0.2s; }
-        .details-btn { background: #6c63ff; } .details-btn:hover { background: #5a54e6; }
-        .edit-btn { background: #2196F3; } .edit-btn:hover { background: #1976D2; }
-        .delete-btn { background: #f44336; } .delete-btn:hover { background: #d32f2f; }
-        .fav-btn { background: #FF9800; } .fav-btn:hover { background: #F57C00; }
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; }
-        .modal-content { background: #fff; padding: 20px 30px; border-radius: 12px; width: 500px; max-width: 90%; position: relative; max-height: 90vh; overflow-y: auto; }
-        .modal-content h3 { margin-top: 0; }
-        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }
-        .modal-close { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #888; }
-        .modal-close:hover { color: #000; }
-        #imagePreview { width: 100%; height: 160px; object-fit: cover; margin-bottom: 10px; border-radius: 6px; display: none; }
-        .difficulty-badge { display:inline-block; padding:4px 10px; border-radius: 12px; font-size:12px; font-weight:600; }
-        .diff-easy { background:#e8f5e9; color:#2e7d32; border:1px solid #c8e6c9; }
-        .diff-medium { background:#fff3e0; color:#ef6c00; border:1px solid #ffe0b2; }
-        .diff-hard { background:#ffebee; color:#b71c1c; border:1px solid #ffcdd2; }
-        .diff-unknown { background:#eceff1; color:#607d8b; border:1px solid #cfd8dc; }
+        body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f4f6f9;margin:0;padding:0}
+        .container{max-width:1100px;margin:30px auto;padding:20px}
+        h1{text-align:center;color:#333;margin-bottom:20px}
+        .controls{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
+        .controls input,.controls select,.controls button{padding:8px 12px;font-size:14px;border-radius:8px;border:1px solid #ccc;outline:none}
+        .controls button{background:#4CAF50;color:#fff;cursor:pointer;border:none;transition:0.2s}
+        .controls button:hover{background:#43a047}
+        #recipeList{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+        .recipe-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);transition:0.2s;display:flex;flex-direction:column}
+        .recipe-card:hover{transform:translateY(-5px)}
+        .recipe-card img{width:100%;height:160px;object-fit:cover}
+        .recipe-info{padding:12px;flex:1;display:flex;flex-direction:column;gap:4px}
+        .recipe-info h3{margin:0;font-size:18px;color:#333;display:flex;justify-content:space-between;align-items:center}
+        .recipe-info .category-badge{font-size:12px;background:#e0f7fa;color:#00796b;padding:2px 6px;border-radius:8px;margin-left:6px}
+        .recipe-info p{margin:0;font-size:14px;color:#777;display:flex;justify-content:space-between;align-items:center}
+        .recipe-actions{display:flex;justify-content:space-between;padding:10px;border-top:1px solid #eee}
+        .recipe-actions button{flex:1;margin:0 4px;padding:6px 8px;font-size:13px;border-radius:6px;cursor:pointer;border:none;color:#fff;transition:0.2s}
+        .details-btn{background:#6c63ff}.details-btn:hover{background:#5a54e6}
+        .edit-btn{background:#2196F3}.edit-btn:hover{background:#1976D2}
+        .delete-btn{background:#f44336}.delete-btn:hover{background:#d32f2f}
+        .fav-btn{background:#FF9800}.fav-btn:hover{background:#F57C00}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:100}
+        .modal-content{background:#fff;padding:20px 30px;border-radius:12px;width:500px;max-width:90%;position:relative;max-height:90vh;overflow-y:auto}
+        .modal-content h3{margin-top:0}
+        .modal-content input,.modal-content textarea,.modal-content select{width:100%;padding:10px;margin-bottom:10px;border-radius:6px;border:1px solid #ccc}
+        .modal-close{position:absolute;top:10px;right:15px;font-size:20px;cursor:pointer;color:#888}
+        .modal-close:hover{color:#000}
+        #imagePreview{width:100%;height:160px;object-fit:cover;margin-bottom:10px;border-radius:6px;display:none}
+        .difficulty-badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600}
+        .diff-easy{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9}
+        .diff-medium{background:#fff3e0;color:#ef6c00;border:1px solid #ffe0b2}
+        .diff-hard{background:#ffebee;color:#b71c1c;border:1px solid #ffcdd2}
+        .diff-unknown{background:#eceff1;color:#607d8b;border:1px solid #cfd8dc}
+        #detailsModal .modal-content p{margin:5px 0}
     </style>
 </head>
 <body>
@@ -50,7 +52,8 @@
             <option value="time-asc">Время ↑</option>
             <option value="time-desc">Время ↓</option>
         </select>
-        <button id="addRecipeBtn">Добавить</button>
+        <button id="addRecipeBtn">Добавить рецепт</button>
+        <button id="manageCategoriesBtn" style="background:#009688;">Категории</button>
         <button id="showFavoritesBtn" style="background:#FF9800;">⭐ Избранное</button>
         <button id="showAllBtn">Все рецепты</button>
     </div>
@@ -62,219 +65,448 @@
     <div class="modal-content">
         <span class="modal-close" id="closeModal">&times;</span>
         <h3 id="modalTitle">Новый рецепт</h3>
-        <input type="text" id="recipeName" placeholder="Название" required>
-        <textarea id="recipeIngredients" placeholder="Ингредиенты" rows="2" required></textarea>
-        <textarea id="recipeInstructions" placeholder="Инструкции" rows="2" required></textarea>
+        <input type="text" id="recipeName" placeholder="Название">
+        <textarea id="recipeIngredients" placeholder="Ингредиенты" rows="2"></textarea>
+        <textarea id="recipeInstructions" placeholder="Инструкции" rows="2"></textarea>
         <textarea id="recipeDescription" placeholder="Описание" rows="2"></textarea>
-        <label for="recipeDifficulty" style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Сложность</label>
+        <label>Сложность</label>
         <select id="recipeDifficulty">
             <option value="UNKNOWN">Не указано</option>
             <option value="EASY">Лёгко</option>
             <option value="MEDIUM">Средне</option>
             <option value="HARD">Сложно</option>
         </select>
-        <input type="number" id="recipeTime" placeholder="Время приготовления (мин)" required>
+        <input type="number" id="recipeTime" placeholder="Время приготовления (мин)">
         <input type="text" id="recipeImage" placeholder="URL изображения">
         <img id="imagePreview" alt="Превью изображения">
+        <label>Категория</label>
+        <select id="recipeCategory"></select>
         <button id="saveRecipeBtn">Сохранить</button>
+    </div>
+</div>
+
+<div class="modal" id="categoryModal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeCategoryModal">&times;</span>
+        <h3>Управление категориями</h3>
+        <input type="text" id="newCategoryName" placeholder="Название категории">
+        <button id="addCategoryBtn">Добавить категорию</button>
+        <ul id="categoryList"></ul>
     </div>
 </div>
 
 <div class="modal" id="detailsModal">
     <div class="modal-content">
-        <span class="modal-close" id="closeDetails">&times;</span>
+        <span class="modal-close" id="closeDetailsModal">&times;</span>
         <h3 id="detailsTitle"></h3>
-        <img id="detailsImage" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
-        <p><strong>Время приготовления:</strong> <span id="detailsTime"></span> мин</p>
+        <img id="detailsImage" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+        <p><strong>Категория:</strong> <span id="detailsCategory"></span></p>
         <p><strong>Сложность:</strong> <span id="detailsDifficulty"></span></p>
+        <p><strong>Время:</strong> <span id="detailsTime"></span> мин</p>
+        <p><strong>Ингредиенты:</strong> <span id="detailsIngredients"></span></p>
+        <p><strong>Инструкции:</strong> <span id="detailsInstructions"></span></p>
         <p><strong>Описание:</strong> <span id="detailsDescription"></span></p>
-        <p><strong>Ингредиенты:</strong></p>
-        <p id="detailsIngredients"></p>
-        <p><strong>Инструкции:</strong></p>
-        <p id="detailsInstructions"></p>
     </div>
 </div>
 
+<div class="modal" id="editCategoryModal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeEditCategoryModal">&times;</span>
+        <h3>Редактировать категорию</h3>
+        <input type="text" id="editCategoryName" placeholder="Новое название категории">
+        <button id="saveEditCategoryBtn" style="background:#4CAF50;color:#fff;">Сохранить</button>
+        <button id="cancelEditCategoryBtn" style="background:#ccc;color:#000;">Отмена</button>
+    </div>
+</div>
+
+<div class="modal" id="confirmDeleteModal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeConfirmDeleteModal">&times;</span>
+        <h3>Удалить рецепт?</h3>
+        <p>Вы уверены, что хотите удалить этот рецепт?</p>
+        <button id="confirmDeleteBtn" style="background:#f44336;color:#fff;">Удалить</button>
+        <button id="cancelDeleteBtn" style="background:#ccc;color:#000;">Отмена</button>
+    </div>
+</div>
+
+<div class="modal" id="confirmDeleteCategoryModal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeConfirmDeleteCategoryModal">&times;</span>
+        <h3>Удалить категорию?</h3>
+        <p>Вы уверены, что хотите удалить эту категорию?</p>
+        <button id="confirmDeleteCategoryBtn" style="background:#f44336;color:#fff;">Удалить</button>
+        <button id="cancelDeleteCategoryBtn" style="background:#ccc;color:#000;">Отмена</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 <script>
-    const apiUrl = "http://localhost:8080/api/recipes";
-    const favUrl = "http://localhost:8080/api/recipes/favorites";
+    const apiUrl = "http://localhost:8080/api/recipes",
+          catUrl = "http://localhost:8080/api/categories",
+          favUrl = "http://localhost:8080/api/recipes/favorites";
 
-    let recipes = [], favorites = [], editId = null, showingFavorites = false;
+    let recipes = [], favorites = [], categories = [], editId = null, showingFavorites = false;
 
-    const recipeList = document.getElementById("recipeList");
-    const searchInput = document.getElementById("search");
-    const sortSelect = document.getElementById("sort");
-    const addRecipeBtn = document.getElementById("addRecipeBtn");
-    const showFavoritesBtn = document.getElementById("showFavoritesBtn");
-    const showAllBtn = document.getElementById("showAllBtn");
+    // --- DOM элементы ---
+    const recipeList = document.getElementById("recipeList"),
+          searchInput = document.getElementById("search"),
+          sortSelect = document.getElementById("sort"),
+          addRecipeBtn = document.getElementById("addRecipeBtn"),
+          showFavoritesBtn = document.getElementById("showFavoritesBtn"),
+          showAllBtn = document.getElementById("showAllBtn"),
+          manageCategoriesBtn = document.getElementById("manageCategoriesBtn"),
+          modal = document.getElementById("recipeModal"),
+          closeModal = document.getElementById("closeModal"),
+          modalTitle = document.getElementById("modalTitle"),
+          recipeName = document.getElementById("recipeName"),
+          recipeIngredients = document.getElementById("recipeIngredients"),
+          recipeInstructions = document.getElementById("recipeInstructions"),
+          recipeDescription = document.getElementById("recipeDescription"),
+          recipeDifficulty = document.getElementById("recipeDifficulty"),
+          recipeTime = document.getElementById("recipeTime"),
+          recipeImage = document.getElementById("recipeImage"),
+          saveRecipeBtn = document.getElementById("saveRecipeBtn"),
+          imagePreview = document.getElementById("imagePreview"),
+          categorySelect = document.getElementById("recipeCategory"),
+          categoryModal = document.getElementById("categoryModal"),
+          closeCategoryModal = document.getElementById("closeCategoryModal"),
+          newCategoryName = document.getElementById("newCategoryName"),
+          addCategoryBtn = document.getElementById("addCategoryBtn"),
+          categoryList = document.getElementById("categoryList"),
+          editCategoryModal = document.getElementById("editCategoryModal"),
+          editCategoryName = document.getElementById("editCategoryName"),
+          saveEditCategoryBtn = document.getElementById("saveEditCategoryBtn"),
+          cancelEditCategoryBtn = document.getElementById("cancelEditCategoryBtn"),
+          closeEditCategoryModal = document.getElementById("closeEditCategoryModal"),
+          confirmDeleteCategoryModal = document.getElementById("confirmDeleteCategoryModal"),
+          confirmDeleteCategoryBtn = document.getElementById("confirmDeleteCategoryBtn"),
+          cancelDeleteCategoryBtn = document.getElementById("cancelDeleteCategoryBtn"),
+          closeConfirmDeleteCategoryModal = document.getElementById("closeConfirmDeleteCategoryModal");
 
-    const modal = document.getElementById("recipeModal");
-    const closeModal = document.getElementById("closeModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const recipeName = document.getElementById("recipeName");
-    const recipeIngredients = document.getElementById("recipeIngredients");
-    const recipeInstructions = document.getElementById("recipeInstructions");
-    const recipeDescription = document.getElementById("recipeDescription");
-    const recipeDifficulty = document.getElementById("recipeDifficulty");
-    const recipeTime = document.getElementById("recipeTime");
-    const recipeImage = document.getElementById("recipeImage");
-    const saveRecipeBtn = document.getElementById("saveRecipeBtn");
-    const imagePreview = document.getElementById("imagePreview");
+    // --- Вспомогательные переменные ---
+    let editingCategoryId = null, deletingCategoryId = null, deletingRecipeId = null;
 
-    const detailsModal = document.getElementById("detailsModal");
-    const closeDetails = document.getElementById("closeDetails");
-    const detailsTitle = document.getElementById("detailsTitle");
-    const detailsImage = document.getElementById("detailsImage");
-    const detailsTime = document.getElementById("detailsTime");
-    const detailsDescription = document.getElementById("detailsDescription");
-    const detailsIngredients = document.getElementById("detailsIngredients");
-    const detailsInstructions = document.getElementById("detailsInstructions");
-    const detailsDifficulty = document.getElementById("detailsDifficulty");
+    // =============================
+    // Загрузка категорий
+    // =============================
+    async function loadCategories() {
+        try {
+            const res = await fetch(catUrl);
+            categories = await res.json();
 
-    recipeImage.addEventListener("input", () => {
-        if(recipeImage.value){ imagePreview.src = recipeImage.value; imagePreview.style.display="block"; }
-        else imagePreview.style.display="none";
-    });
+            // Обновляем select в форме рецепта
+            categorySelect.innerHTML = '<option value="">Выберите категорию</option>';
+            categories.forEach(c => categorySelect.innerHTML += `<option value="${c.id}">${c.name}</option>`);
 
-    function difficultyLabel(d){ switch(d){ case 'EASY': return 'Лёгко'; case 'MEDIUM': return 'Средне'; case 'HARD': return 'Сложно'; default: return 'Не указано'; }}
-    function difficultyClass(d){ switch(d){ case 'EASY': return 'diff-easy'; case 'MEDIUM': return 'diff-medium'; case 'HARD': return 'diff-hard'; default: return 'diff-unknown'; }}
+            // Обновляем список категорий в модальном окне
+            categoryList.innerHTML = '';
+            categories.forEach(c => {
+                const li = document.createElement("li");
+                li.textContent = c.name + " ";
 
-    async function loadData(favOnly=false, sorted=false){
-        showingFavorites = favOnly;
-        let url = favOnly?favUrl:apiUrl;
-        if(sorted){ const val = sortSelect.value;
-            if(val==="name-asc") url += favOnly?"/sortedNameAsc":"/sorted-name-Asc";
-            if(val==="name-desc") url += favOnly?"/sortedNameDesc":"/sorted-name-Desc";
-            if(val==="time-asc") url += favOnly?"/sortedCookingTimeAsc":"/sorted-cooking-time-Asc";
-            if(val==="time-desc") url += favOnly?"/sortedCookingTimeDesc":"/sorted-cooking-time-Desc";
-        }
-        try{ const res = await fetch(url); if(!res.ok) throw new Error("Ошибка"); const data = await res.json();
-            if(favOnly) favorites = data; else recipes = data;
-            renderRecipes();
-        } catch(err){ console.error(err); recipeList.innerHTML="<p>Ошибка загрузки данных</p>"; }
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "✎";
+                editBtn.onclick = () => showEditCategory(c.id, c.name);
+
+                const delBtn = document.createElement("button");
+                delBtn.textContent = "🗑";
+                delBtn.onclick = () => showDeleteCategoryModal(c.id);
+
+                li.appendChild(editBtn);
+                li.appendChild(delBtn);
+                categoryList.appendChild(li);
+            });
+        } catch (e) { console.error(e); }
     }
 
-    function renderRecipes(){
-        const list = showingFavorites?favorites:recipes;
-        const search = (searchInput.value||"").toLowerCase();
-        const filtered = list.filter(r=>(r.name||"").toLowerCase().includes(search));
-        recipeList.innerHTML="";
-        if(filtered.length===0){ recipeList.innerHTML="<p>Рецептов не найдено</p>"; return; }
-        filtered.forEach(r=>{
-            const isFav = favorites.some(f=>f.id===r.id);
-            const badgeClass = difficultyClass(r.difficulty);
-            const badgeLabel = difficultyLabel(r.difficulty);
+    // =============================
+    // Добавление категории
+    // =============================
+    addCategoryBtn.onclick = async () => {
+        const name = newCategoryName.value.trim();
+        if (!name) return;
+        await fetch(catUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name }) });
+        newCategoryName.value = "";
+        await loadCategories();
+        await loadData(false, true);
+    };
+
+    // =============================
+    // Редактирование категории
+    // =============================
+    function showEditCategory(id, name) {
+        editingCategoryId = id;
+        editCategoryName.value = name;
+        editCategoryModal.style.display = "flex";
+    }
+    cancelEditCategoryBtn.onclick = closeEditCategoryModal.onclick = () => editCategoryModal.style.display = "none";
+    saveEditCategoryBtn.onclick = async () => {
+    const newName = editCategoryName.value.trim();
+    if (!newName) return;
+
+    // Обновляем категорию на сервере
+    await fetch(`${catUrl}/${editingCategoryId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newName })
+    });
+
+    // Обновляем локальный массив категорий
+    categories = categories.map(c => c.id === editingCategoryId ? { ...c, name: newName } : c);
+
+    // Обновляем все рецепты: если категория совпадает, меняем название
+    recipes = recipes.map(r => r.category?.id === editingCategoryId ? { ...r, category: { ...r.category, name: newName } } : r);
+    favorites = favorites.map(r => r.category?.id === editingCategoryId ? { ...r, category: { ...r.category, name: newName } } : r);
+
+    // Перерисовываем карточки текущего раздела
+    renderRecipes();
+    await loadCategories(); // обновляем select и список категорий
+
+    editCategoryModal.style.display = "none";
+    editingCategoryId = null;
+};
+
+///////////////
+
+
+    // =============================
+    // Удаление категории
+    // =============================
+    function showDeleteCategoryModal(id) {
+        deletingCategoryId = id;
+        confirmDeleteCategoryModal.style.display = "flex";
+    }
+    cancelDeleteCategoryBtn.onclick = closeConfirmDeleteCategoryModal.onclick = () => confirmDeleteCategoryModal.style.display = "none";
+    confirmDeleteCategoryBtn.onclick = async () => {
+    await fetch(`${catUrl}/${deletingCategoryId}`, { method: "DELETE" });
+
+    // После удаления: обновляем категории
+    await loadCategories();
+
+    // Убираем категорию у всех рецептов и избранного
+    recipes = recipes.map(r => {
+        if (r.category?.id === deletingCategoryId) r.category = null;
+        return r;
+    });
+    favorites = favorites.map(r => {
+        if (r.category?.id === deletingCategoryId) r.category = null;
+        return r;
+    });
+
+    renderRecipes();
+
+    confirmDeleteCategoryModal.style.display = "none";
+    deletingCategoryId = null;
+};
+
+///////////
+
+    // =============================
+    // Рецепты
+    // =============================
+    function difficultyLabel(d) {
+        switch (d) { case "EASY": return "Лёгко"; case "MEDIUM": return "Средне"; case "HARD": return "Сложно"; default: return "Не указано"; }
+    }
+    function difficultyClass(d) {
+        switch (d) { case "EASY": return "diff-easy"; case "MEDIUM": return "diff-medium"; case "HARD": return "diff-hard"; default: return "diff-unknown"; }
+    }
+
+    async function loadFavorites() {
+        const res = await fetch(favUrl);
+        favorites = res.ok ? await res.json() : [];
+    }
+
+    async function loadData(favOnly = false, sorted = false) {
+        showingFavorites = favOnly;
+        const res = await fetch(favOnly ? favUrl : apiUrl);
+        let data = await res.json();
+
+        if (sorted) {
+            const val = sortSelect.value;
+            if (val === "name-asc") data.sort((a, b) => a.name.localeCompare(b.name));
+            else if (val === "name-desc") data.sort((a, b) => b.name.localeCompare(a.name));
+            else if (val === "time-asc") data.sort((a, b) => (a.cookingTime || 0) - (b.cookingTime || 0));
+            else if (val === "time-desc") data.sort((a, b) => (b.cookingTime || 0) - (a.cookingTime || 0));
+        }
+
+        if (favOnly) favorites = data; else recipes = data;
+        renderRecipes();
+    }
+
+    function renderRecipes() {
+        const list = showingFavorites ? favorites : recipes;
+        const search = (searchInput.value || "").toLowerCase();
+        const filtered = list.filter(r => (r.name || "").toLowerCase().includes(search));
+        recipeList.innerHTML = "";
+        if (!filtered.length) { recipeList.innerHTML = "<p>Рецептов не найдено</p>"; return; }
+
+        filtered.forEach(r => {
+            const isFav = favorites.some(f => f.id === r.id);
             const card = document.createElement("div");
-            card.className="recipe-card";
-            card.innerHTML=`
-                <img src="${r.imageUrl||'https://via.placeholder.com/300x150'}" alt="${r.name}">
+            card.className = "recipe-card";
+            card.innerHTML = `
+                <img src="${r.imageUrl || 'https://via.placeholder.com/300x150'}">
                 <div class="recipe-info">
-                    <h3>${r.name}</h3>
-                    <p><span>⏱ ${r.cookingTime||0} мин</span><span style="margin-left:auto;"><span class="difficulty-badge ${badgeClass}">${badgeLabel}</span></span></p>
+                    <h3>${r.name} <span class="category-badge">${r.category?.name || "—"}</span></h3>
+                    <p><span>⏱ ${r.cookingTime || 0} мин</span><span class="difficulty-badge ${difficultyClass(r.difficulty)}">${difficultyLabel(r.difficulty)}</span></p>
                 </div>
                 <div class="recipe-actions">
                     <button class="details-btn" onclick="showDetails(${r.id})">Подробнее</button>
                     <button class="edit-btn" onclick="editRecipe(${r.id})">✎</button>
-                    <button class="delete-btn" onclick="deleteRecipe(${r.id})">🗑</button>
-                    <button class="fav-btn" onclick="toggleFavorite(${r.id})">${isFav?'⭐':'☆'}</button>
-                </div>
-            `;
+                    <button class="delete-btn" onclick="showDeleteRecipeModal(${r.id})">🗑</button>
+                    <button class="fav-btn" onclick="toggleFavorite(${r.id})">${isFav ? "⭐" : "☆"}</button>
+                </div>`;
             recipeList.appendChild(card);
         });
     }
 
-    function showDetails(id){
-        const r = (recipes.find(x=>x.id===id)||favorites.find(x=>x.id===id)||{});
-        detailsTitle.textContent = r.name||'';
-        detailsImage.src = r.imageUrl||'https://via.placeholder.com/300x150';
-        detailsTime.textContent = r.cookingTime||0;
-        detailsDescription.textContent = r.description||'—';
-        detailsIngredients.textContent = r.ingredients||'—';
-        detailsInstructions.textContent = r.instructions||'—';
+    // =============================
+    // Детали рецепта
+    // =============================
+    const detailsModal = document.getElementById("detailsModal"),
+          closeDetailsModal = document.getElementById("closeDetailsModal"),
+          detailsTitle = document.getElementById("detailsTitle"),
+          detailsImage = document.getElementById("detailsImage"),
+          detailsCategory = document.getElementById("detailsCategory"),
+          detailsDifficulty = document.getElementById("detailsDifficulty"),
+          detailsTime = document.getElementById("detailsTime"),
+          detailsIngredients = document.getElementById("detailsIngredients"),
+          detailsInstructions = document.getElementById("detailsInstructions"),
+          detailsDescription = document.getElementById("detailsDescription");
+
+    function showDetails(id) {
+        const r = recipes.find(x => x.id === id) || favorites.find(x => x.id === id);
+        if (!r) return;
+        detailsTitle.textContent = r.name;
+        detailsImage.src = r.imageUrl || "https://via.placeholder.com/300x150";
+        detailsCategory.textContent = r.category?.name || "Не указано";
         detailsDifficulty.textContent = difficultyLabel(r.difficulty);
-        detailsModal.style.display="flex";
+        detailsTime.textContent = r.cookingTime || 0;
+        detailsIngredients.textContent = r.ingredients || "—";
+        detailsInstructions.textContent = r.instructions || "—";
+        detailsDescription.textContent = r.description || "—";
+        detailsModal.style.display = "flex";
     }
-    closeDetails.addEventListener("click",()=>detailsModal.style.display="none");
+    closeDetailsModal.onclick = () => detailsModal.style.display = "none";
 
-    addRecipeBtn.addEventListener("click",()=>{
-        modalTitle.textContent="Новый рецепт";
-        recipeName.value=recipeIngredients.value=recipeInstructions.value=recipeDescription.value=recipeTime.value=recipeImage.value="";
-        recipeDifficulty.value="UNKNOWN";
-        imagePreview.style.display="none";
-        editId=null;
-        modal.style.display="flex";
-    });
-    closeModal.addEventListener("click",()=>modal.style.display="none");
+    // =============================
+    // Новый/Редактировать рецепт
+    // =============================
+    addRecipeBtn.onclick = () => {
+        modalTitle.textContent = "Новый рецепт";
+        recipeName.value = recipeIngredients.value = recipeInstructions.value = recipeDescription.value = recipeTime.value = recipeImage.value = "";
+        recipeDifficulty.value = "UNKNOWN"; categorySelect.value = ""; imagePreview.style.display = "none"; editId = null;
+        modal.style.display = "flex";
+    };
+    closeModal.onclick = () => modal.style.display = "none";
 
-    saveRecipeBtn.addEventListener("click",async ()=>{
-        const timeValue = parseInt(recipeTime.value);
+    recipeImage.oninput = () => {
+        if (recipeImage.value) { imagePreview.src = recipeImage.value; imagePreview.style.display = "block"; }
+        else imagePreview.style.display = "none";
+    };
+
+    saveRecipeBtn.onclick = async () => {
+        const time = parseInt(recipeTime.value);
         const data = {
             name: recipeName.value,
             ingredients: recipeIngredients.value,
             instructions: recipeInstructions.value,
             description: recipeDescription.value,
-            cookingTime: isNaN(timeValue)?0:timeValue,
+            cookingTime: isNaN(time) ? 0 : time,
             imageUrl: recipeImage.value,
-            difficulty: recipeDifficulty.value||"UNKNOWN"
+            difficulty: (recipeDifficulty.value || "UNKNOWN").toUpperCase(),
+            category: categorySelect.value ? { id: categorySelect.value } : null
         };
-        try{
-            if(editId){
-                await fetch(`${apiUrl}/${editId}`, { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
-            } else{
-                await fetch(apiUrl, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
-            }
-        } catch(err){ console.error("Ошибка сохранения:", err); }
-        finally{
-            modal.style.display="none";
-            showingFavorites=false;
-            await loadData(false);
-            try{ const res=await fetch(favUrl); if(res.ok) favorites=await res.json(); } catch(err){ console.error(err); }
-        }
-    });
+        if (editId) await fetch(`${apiUrl}/${editId}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+        else await fetch(apiUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
 
-    async function deleteRecipe(id){
-        if(confirm("Удалить рецепт?")){
-            await fetch(`${apiUrl}/${id}`,{method:"DELETE"});
-            await loadData(false);
-            try{ const res=await fetch(favUrl); if(res.ok) favorites=await res.json(); } catch(err){ console.error(err); }
-        }
+        modal.style.display = "none";
+        await loadData(showingFavorites, true);
+        await loadFavorites();
+    };
+
+    function editRecipe(id) {
+        const r = recipes.find(x => x.id === id) || favorites.find(x => x.id === id);
+        if (!r) return;
+        modalTitle.textContent = "Редактировать рецепт";
+        recipeName.value = r.name || "";
+        recipeIngredients.value = r.ingredients || "";
+        recipeInstructions.value = r.instructions || "";
+        recipeDescription.value = r.description || "";
+        recipeTime.value = r.cookingTime || "";
+        recipeImage.value = r.imageUrl || "";
+        recipeDifficulty.value = r.difficulty || "UNKNOWN";
+        categorySelect.value = r.category?.id || "";
+        if (r.imageUrl) { imagePreview.src = r.imageUrl; imagePreview.style.display = "block"; }
+        else imagePreview.style.display = "none";
+        editId = id; modal.style.display = "flex";
     }
 
-    function editRecipe(id){
-        const r = recipes.find(x=>x.id===id)||favorites.find(x=>x.id===id);
-        if(!r) return alert("Рецепт не найден");
-        modalTitle.textContent="Редактировать рецепт";
-        recipeName.value=r.name||'';
-        recipeIngredients.value=r.ingredients||'';
-        recipeInstructions.value=r.instructions||'';
-        recipeDescription.value=r.description||'';
-        recipeTime.value=r.cookingTime||'';
-        recipeImage.value=r.imageUrl||'';
-        recipeDifficulty.value=r.difficulty||'UNKNOWN';
-        if(r.imageUrl){ imagePreview.src=r.imageUrl; imagePreview.style.display="block"; } else imagePreview.style.display="none";
-        editId=id;
-        modal.style.display="flex";
+    // =============================
+    // Удаление рецепта
+    // =============================
+    const confirmDeleteModal = document.getElementById("confirmDeleteModal"),
+          confirmDeleteBtn = document.getElementById("confirmDeleteBtn"),
+          cancelDeleteBtn = document.getElementById("cancelDeleteBtn"),
+          closeConfirmDeleteModal = document.getElementById("closeConfirmDeleteModal");
+
+    function showDeleteRecipeModal(id) {
+    deletingRecipeId = id;
+    confirmDeleteModal.style.display = "flex";
+}
+
+confirmDeleteBtn.onclick = async () => {
+    if (!deletingRecipeId) return;
+
+    // Удаляем на сервере
+    await fetch(`${apiUrl}/${deletingRecipeId}`, { method: "DELETE" });
+
+    // Удаляем из локальных массивов, чтобы удаление было везде
+    recipes = recipes.filter(r => r.id !== deletingRecipeId);
+    favorites = favorites.filter(f => f.id !== deletingRecipeId);
+
+    // Перерисовываем карточки текущего раздела
+    renderRecipes();
+
+    // Сбросим id удаления и закроем модальное окно
+    deletingRecipeId = null;
+    confirmDeleteModal.style.display = "none";
+};
+
+    // =============================
+    // Избранное
+    // =============================
+    async function toggleFavorite(id) {
+        const isFav = favorites.some(f => f.id === id);
+        await fetch(`${favUrl}/${id}`, { method: isFav ? "DELETE" : "POST" });
+        await loadFavorites(); renderRecipes();
     }
 
-    async function toggleFavorite(id){
-        const isFav=favorites.some(f=>f.id===id);
-        const method=isFav?"DELETE":"POST";
-        try{ await fetch(`${favUrl}/${id}`, {method}); } catch(err){ console.error(err); }
-        try{ const res=await fetch(favUrl); if(res.ok) favorites=await res.json(); } catch(err){ console.error(err); }
-        renderRecipes();
-    }
+    // =============================
+    // События
+    // =============================
+    searchInput.oninput = renderRecipes;
+    sortSelect.onchange = () => loadData(showingFavorites, true);
+    showFavoritesBtn.onclick = async () => { await loadFavorites(); showingFavorites = true; renderRecipes(); }
+    showAllBtn.onclick = () => { showingFavorites = false; loadData(false, true); }
+    manageCategoriesBtn.onclick = () => categoryModal.style.display = "flex";
+    closeCategoryModal.onclick = () => categoryModal.style.display = "none";
 
-    searchInput.addEventListener("input",renderRecipes);
-    sortSelect.addEventListener("change",()=>loadData(showingFavorites,true));
-    showFavoritesBtn.addEventListener("click",()=>loadData(true));
-    showAllBtn.addEventListener("click",()=>loadData(false));
-
-    async function init(){
-        await loadData(false);
-        try{ const res=await fetch(favUrl); favorites=res.ok?await res.json():[]; } catch(err){ console.error(err); favorites=[]; }
-    }
-
-    init();
+    // =============================
+    // Инициализация
+    // =============================
+    (async function init() {
+        await loadData(false, true);
+        await loadCategories();
+        await loadFavorites();
+    })();
 </script>
+
 </body>
 </html>
