@@ -1,8 +1,9 @@
 package com.example.Recipes.catalog.services;
 
 import com.example.Recipes.catalog.models.Recipe;
-import com.example.Recipes.catalog.repository.CategoryRepository;
+import com.example.Recipes.catalog.repository.FavoriteRepository;
 import com.example.Recipes.catalog.repository.RecipeRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,14 +17,15 @@ import org.slf4j.Logger;
 @Service
 public class RecipeService {
     private final RecipeRepository repository;
-    private final CategoryRepository categoryRepository;
+    private final FavoriteRepository favoriteRepository;
     private static final Logger log = LoggerFactory.getLogger(RecipeService.class);
     private final FavoriteService favoriteService;
 
     @Autowired
-    public RecipeService(RecipeRepository repository, CategoryRepository categoryRepository, FavoriteService favoriteService) {
+    public RecipeService(RecipeRepository repository, FavoriteRepository favoriteRepository,
+                         FavoriteService favoriteService) {
         this.repository = repository;
-        this.categoryRepository = categoryRepository;
+        this.favoriteRepository = favoriteRepository;
         this.favoriteService = favoriteService;
     }
 
@@ -46,20 +48,22 @@ public class RecipeService {
             recipe.setDifficulty(updatedRecipe.getDifficulty());
             recipe.setCategory(updatedRecipe.getCategory());
 
-            // Сбрасываем кеш избранного, чтобы обновлённый рецепт отобразился сразу
             favoriteService.evictFavoriteCache();
-
             log.info("Обнавлен рецепт: " + recipe.getName());
             return repository.save(recipe);
     }
 
+    @Transactional
     @CacheEvict(value = "recipes", allEntries = true)
     public void deleteByIdRecipe(long id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Рецепт не найден с id: " + id);
         }
         log.info("Удален рецепт с id: " + id);
+
+        favoriteRepository.deleteByRecipeId(id);
         repository.deleteById(id);
+        favoriteService.evictFavoriteCache();
     }
 
     @Cacheable(value = "recipes", key = "'allRecipes'")
@@ -102,5 +106,10 @@ public class RecipeService {
     public List<Recipe> findAllByNameContainingIgnoreCase(String name) {
         log.info("Поиск рецептов по названию: " + name);
         return repository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    @CacheEvict(value = "recipes", allEntries = true)
+    public void evictRecipesCache() {
+        log.info("Очистка кеша рецептов");
     }
 }

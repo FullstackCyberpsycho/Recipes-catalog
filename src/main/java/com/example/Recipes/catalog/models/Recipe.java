@@ -43,10 +43,6 @@ public class Recipe {
     private Difficulty difficulty = Difficulty.UNKNOWN;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
-
-//    @Lob
-//    @Column(name = "image_data")
-//    private byte[] imageData;
 }

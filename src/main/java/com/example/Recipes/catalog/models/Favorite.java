@@ -18,6 +18,6 @@ public class Favorite {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_recipes", nullable = false)
+    @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 }

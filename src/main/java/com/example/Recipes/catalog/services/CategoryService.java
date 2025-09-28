@@ -1,7 +1,6 @@
 package com.example.Recipes.catalog.services;
 
 import com.example.Recipes.catalog.models.Category;
-import com.example.Recipes.catalog.models.Recipe;
 import com.example.Recipes.catalog.repository.CategoryRepository;
 import com.example.Recipes.catalog.repository.RecipeRepository;
 import jakarta.transaction.Transactional;
@@ -18,13 +17,16 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    private final RecipeRepository recipeRepository;
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
+    private final RecipeService recipeService;
+    private final FavoriteService favoriteService;
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, RecipeRepository recipeRepository) {
+    public CategoryService(CategoryRepository categoryRepository,RecipeService recipeService,
+                           FavoriteService favoriteService) {
         this.categoryRepository = categoryRepository;
-        this.recipeRepository = recipeRepository;
+        this.recipeService = recipeService;
+        this.favoriteService = favoriteService;
     }
 
     @Cacheable(value = "category", key = "'allCategory'")
@@ -48,6 +50,9 @@ public class CategoryService {
     @CacheEvict(value = "category", allEntries = true)
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+
+        recipeService.evictRecipesCache();
+        favoriteService.evictFavoriteCache();
         log.info("Категория с id: {} бала удалена", id);
     }
 
@@ -57,7 +62,10 @@ public class CategoryService {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Категория не найден с id: " + id));
         category.setName(updateCategory.getName());
         log.info("Название категрии с id {} была изменена на {}", id, updateCategory.getName());
+
+        recipeService.evictRecipesCache();
+        favoriteService.evictFavoriteCache();
+
         return categoryRepository.save(category);
     }
-
 }
