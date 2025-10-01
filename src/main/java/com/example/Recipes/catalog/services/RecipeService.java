@@ -1,5 +1,7 @@
 package com.example.Recipes.catalog.services;
 
+import com.example.Recipes.catalog.models.Category;
+import com.example.Recipes.catalog.models.Difficulty;
 import com.example.Recipes.catalog.models.Recipe;
 import com.example.Recipes.catalog.repository.FavoriteRepository;
 import com.example.Recipes.catalog.repository.RecipeRepository;
@@ -20,13 +22,16 @@ public class RecipeService {
     private final FavoriteRepository favoriteRepository;
     private static final Logger log = LoggerFactory.getLogger(RecipeService.class);
     private final FavoriteService favoriteService;
+    //private final ImageStorageService imageStorageService;
+   // private Recipe recipe;
 
     @Autowired
     public RecipeService(RecipeRepository repository, FavoriteRepository favoriteRepository,
-                         FavoriteService favoriteService) {
+                         FavoriteService favoriteService/*, ImageStorageService imageStorageService*/) {
         this.repository = repository;
         this.favoriteRepository = favoriteRepository;
         this.favoriteService = favoriteService;
+      //  this.imageStorageService = imageStorageService;
     }
 
     @CacheEvict(value = "recipes", allEntries = true)
@@ -39,6 +44,11 @@ public class RecipeService {
     public Recipe updateRecipe(long id, Recipe updatedRecipe) {
         Recipe recipe = repository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Рецепт не найден с id: " + id));
+
+//        if (updatedRecipe.getImageUrl() != null && !updatedRecipe.getImageUrl().equals(recipe.getImageUrl())) {
+//            imageStorageService.deleteFile(recipe.getImageUrl());
+//        }
+
             recipe.setName(updatedRecipe.getName());
             recipe.setDescription(updatedRecipe.getDescription());
             recipe.setIngredients(updatedRecipe.getIngredients());
@@ -59,6 +69,12 @@ public class RecipeService {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Рецепт не найден с id: " + id);
         }
+
+
+//        if (recipe.getImageUrl() != null) {
+//            imageStorageService.deleteFile(recipe.getImageUrl());
+//        }
+
         log.info("Удален рецепт с id: " + id);
 
         favoriteRepository.deleteByRecipeId(id);
@@ -86,19 +102,19 @@ public class RecipeService {
 
     @Cacheable(value = "recipes", key = "'sortedNameDesc'")
     public List<Recipe> findAllSortedNameDesc() {
-        log.info("Поиск названий рецептов отсортированых по DESC");
+        log.info("Поиск названий рецептов отсортированных по DESC");
         return repository.findAll(Sort.by(Sort.Direction.DESC, "name"));
     }
 
     @Cacheable(value = "recipes", key = "'sortedCookingTimeAsc'")
     public List<Recipe> findAllSortedCookingTimeAsc() {
-        log.info("Поиск рецептов по временни готовки отсортированых по ASC");
+        log.info("Поиск рецептов по времени готовки отсортированных по ASC");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "cookingTime"));
     }
 
     @Cacheable(value = "recipes", key = "'sortedCookingTimeDesc'")
     public List<Recipe> findAllSortedCookingTimeDesc() {
-        log.info("Поиск рецептов по временни готовки отсортированых по DESC");
+        log.info("Поиск рецептов по времени готовки отсортированных по DESC");
         return repository.findAll(Sort.by(Sort.Direction.DESC, "cookingTime"));
     }
 
@@ -106,6 +122,18 @@ public class RecipeService {
     public List<Recipe> findAllByNameContainingIgnoreCase(String name) {
         log.info("Поиск рецептов по названию: " + name);
         return repository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    @Cacheable(value = "recipes", key = "'difficulty_' + #difficulty")
+    public List<Recipe> findByDifficulty(Difficulty difficulty) {
+        log.info("Поиск рецептов по сложности: " + difficulty);
+        return repository.findByDifficulty(difficulty);
+    }
+
+    @Cacheable(value = "recipes", key = "'category_' + #id")
+    public List<Recipe> findByCategoryId(Long id) {
+        log.info("Поиск рецептов по категории с id: " + id);
+        return repository.findByCategoryId(id);
     }
 
     @CacheEvict(value = "recipes", allEntries = true)

@@ -1,7 +1,10 @@
 package com.example.Recipes.catalog.controllers;
 
+import com.example.Recipes.catalog.models.Category;
+import com.example.Recipes.catalog.models.Difficulty;
 import com.example.Recipes.catalog.models.Recipe;
 import com.example.Recipes.catalog.models.RecipeSearch;
+import com.example.Recipes.catalog.services.CategoryService;
 import com.example.Recipes.catalog.services.RecipeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +12,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+//import java.util.Optional;
 
 @RestController
 @RequestMapping("api/recipes")
 public class RecipeController {
     private final RecipeService service;
+    //private final CategoryService categoryService;
 
     @Autowired
-    public RecipeController(RecipeService service) {
+    public RecipeController(RecipeService service/*, CategoryService categoryService*/) {
         this.service = service;
+       // this.categoryService = categoryService;
     }
 
     @PostMapping
@@ -48,24 +54,34 @@ public class RecipeController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/sorted-name-Asc")
+    @GetMapping("/sortedNameAsc")
     public ResponseEntity<List<Recipe>> getFindAllSortedNameAsc() {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedNameAsc());
     }
 
-    @GetMapping("/sorted-name-Desc")
+    @GetMapping("/sortedNameDesc")
     public ResponseEntity<List<Recipe>> getFindAllSortedNameDesc() {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedNameDesc());
     }
 
-    @GetMapping("/sorted-cooking-time-Asc")
+    @GetMapping("/sortedCookingTimeAsc")
     public ResponseEntity<List<Recipe>> getFindAllSortedCookingTimeAsc() {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedCookingTimeAsc());
     }
 
-    @GetMapping("/sorted-cooking-time-Desc")
+    @GetMapping("/sortedCookingTimeDesc")
     public ResponseEntity<List<Recipe>> getFindAllSortedCookingTimeDesc() {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAllSortedCookingTimeDesc());
+    }
+
+    @GetMapping("/sortedDifficulty/{difficulty}")
+    public ResponseEntity<List<Recipe>> getRecipeByDifficulty(@PathVariable Difficulty difficulty) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findByDifficulty(difficulty));
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<Recipe>> getRecipeByCategoryId(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findByCategoryId(id));
     }
 
     @PostMapping("/search")

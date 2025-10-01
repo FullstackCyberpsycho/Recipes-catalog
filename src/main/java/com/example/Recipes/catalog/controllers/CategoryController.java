@@ -23,22 +23,22 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<Category> addCategory(@RequestBody @Valid Category category) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addCategory(category));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveCategory(category));
     }
 
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllCategories());
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAllCategories());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Category>> getCategory(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getCategory(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.findByIdCategory(id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> getDeleteCategory(@PathVariable Long id) {
-        service.deleteCategory(id);
+        service.deleteByIdCategory(id);
         return ResponseEntity.ok("Категория была удалена");
     }
 

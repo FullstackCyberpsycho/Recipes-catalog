@@ -2,7 +2,6 @@ package com.example.Recipes.catalog.services;
 
 import com.example.Recipes.catalog.models.Category;
 import com.example.Recipes.catalog.repository.CategoryRepository;
-import com.example.Recipes.catalog.repository.RecipeRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,25 +29,25 @@ public class CategoryService {
     }
 
     @Cacheable(value = "category", key = "'allCategory'")
-    public List<Category> getAllCategories() {
+    public List<Category> findAllCategories() {
         log.info("Поиск всех категрий");
         return categoryRepository.findAll();
     }
 
     @CacheEvict(value = "category", allEntries = true)
-    public Category addCategory(Category category) {
+    public Category saveCategory(Category category) {
         log.info("Добавлена категория: " + category.getName());
        return categoryRepository.save(category);
     }
 
     @Cacheable(value = "category", key = "'category_' + #id")
-    public Optional<Category> getCategory(Long id) {
+    public Optional<Category> findByIdCategory(Long id) {
         log.info("Поиск категории с id: " + id);
         return categoryRepository.findById(id);
     }
 
     @CacheEvict(value = "category", allEntries = true)
-    public void deleteCategory(Long id) {
+    public void deleteByIdCategory(Long id) {
         categoryRepository.deleteById(id);
 
         recipeService.evictRecipesCache();
@@ -61,7 +60,7 @@ public class CategoryService {
     public Category updateCategory(long id ,Category updateCategory) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Категория не найден с id: " + id));
         category.setName(updateCategory.getName());
-        log.info("Название категрии с id {} была изменена на {}", id, updateCategory.getName());
+        log.info("Название категории с id {} была изменена на {}", id, updateCategory.getName());
 
         recipeService.evictRecipesCache();
         favoriteService.evictFavoriteCache();
