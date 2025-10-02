@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.Id;
+import org.springframework.stereotype.Component;
 
+@Component
 @Entity
 @Table(name = "recipes")
 @Getter @Setter
