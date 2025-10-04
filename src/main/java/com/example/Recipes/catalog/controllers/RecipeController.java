@@ -18,12 +18,10 @@ import java.util.List;
 @RequestMapping("api/recipes")
 public class RecipeController {
     private final RecipeService service;
-    //private final CategoryService categoryService;
 
     @Autowired
-    public RecipeController(RecipeService service/*, CategoryService categoryService*/) {
+    public RecipeController(RecipeService service) {
         this.service = service;
-       // this.categoryService = categoryService;
     }
 
     @PostMapping
